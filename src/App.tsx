@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { actionType } from './BLL/rootReducer';
+import { StateType } from './BLL/Store';
+import { ToDoEditor } from './Components/ToDoEditor';
+import { ToDoList } from './Components/ToDoList';
 
-function App() {
+
+type PropsType = {
+  state: StateType
+  dispatch: (action: actionType) => void
+}
+const App = (props: PropsType ) => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ToDoList/>
+      <ToDoEditor state={props.state} dispatch={props.dispatch}/>
     </div>
   );
 }
 
-export default App;
+export default App
