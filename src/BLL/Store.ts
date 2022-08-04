@@ -1,6 +1,6 @@
-import { rootReducer } from "./rootReducer";
+import { ItemType, rootReducer } from "./rootReducer";
 
-// Создаю собственный State manager
+// Собственный State manager
 
 export type StateType = {
     ToDoEditorPage: {
@@ -9,17 +9,13 @@ export type StateType = {
 }
 let store = {
 
-
     _state: {
         ToDoEditorPage: {
-            ToDoData: [
-                {ch:'chpon'},
-                {ff:"ds"}
-            ]
+            ToDoData: [] as Array<ItemType>
         }
     },
 
-    _callSubscriber() { },
+    _callSubscriber(ch: any) { },
 
     getState() {
         return this._state;
@@ -31,6 +27,8 @@ let store = {
 
     dispatch(action: any) {
         this._state.ToDoEditorPage = rootReducer(this._state.ToDoEditorPage, action)
+        
+        this._callSubscriber(this._state)
     }
 }
 export default store

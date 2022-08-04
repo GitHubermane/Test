@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
-import { actionType, addNewItemActionCreator } from '../BLL/rootReducer'
+import { addNewItemActionCreator } from '../BLL/rootReducer'
 import { StateType } from '../BLL/Store'
 
 type PropsType = {
     state: StateType
-    dispatch: (action: actionType) => void
+    dispatch: (action: any) => void
 
 }
 export const ToDoEditor = (props: PropsType) => {
 
     const [item, setItem] = useState('')
+
     const onChangeText = (e: any) => {
         setItem(e.currentTarget.value)
-        props.dispatch(addNewItemActionCreator(e.currentTarget.value))
     }
-    
+    const onSaveText = () => {
+        props.dispatch(addNewItemActionCreator(item))
+        setItem('')
+    }
     return (
         <div>
             <h2>ToDoEditor</h2>
@@ -22,7 +25,8 @@ export const ToDoEditor = (props: PropsType) => {
                 value={item}
                 type="text"
                 onChange={onChangeText}
-                 />
+            />
+            <button onClick={onSaveText}>Click</button>
         </div>
     )
 }

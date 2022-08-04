@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { actionType } from './BLL/rootReducer';
 import { StateType } from './BLL/Store';
 import { ToDoEditor } from './Components/ToDoEditor';
 import { ToDoList } from './Components/ToDoList';
@@ -8,12 +7,12 @@ import { ToDoList } from './Components/ToDoList';
 
 type PropsType = {
   state: StateType
-  dispatch: (action: actionType) => void
+  dispatch: (action: any) => void
 }
 const App = (props: PropsType ) => {
   return (
     <div className="App">
-      <ToDoList/>
+      <ToDoList ToDoData={props.state.ToDoEditorPage.ToDoData} dispatch={props.dispatch} />
       <ToDoEditor state={props.state} dispatch={props.dispatch}/>
     </div>
   );
