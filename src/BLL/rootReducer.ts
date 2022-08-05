@@ -1,7 +1,8 @@
 //Типы action'ов завернул в константы, чтобы избежать ошибок
 const SET_ITEM = 'SET_ITEM'
 const DELETE_ITEM = 'DELETE_ITEM'
-
+const TOGGLE_EDITMODE_ITEM = 'TOGGLE_EDITMODE_ITEM'
+const TTT = 'TTT'
 export type ItemType = {
     id: number
     text: string
@@ -9,6 +10,7 @@ export type ItemType = {
 }
 export type ToDoEditorPageType = {
     ToDoData: Array<ItemType>
+    inEditMode: Array<any>
 }
 let ID = 0
 //rootReducer для определения типа action'а 
@@ -38,9 +40,35 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                 ToDoData: state.ToDoData.filter(i => i.id !== action.id)
             }
         }
+        case TOGGLE_EDITMODE_ITEM: {
+            return {
+                ...state,
+                ToDoData: 
+                    state.ToDoData.map(item => {
+                        if (item.id === action.id) {
+                            return { ...item, text: action.text }
+                        } else {
+                            return item
+                        }
+                    })
+                
+            }
+        }
+
+        case TTT: {
+
+            return {
+                ...state,
+                inEditMode: action.isFollowing ?
+                    [...state.inEditMode, action.userId] :
+                    state.inEditMode.filter(id => id != action.userId)
+            }
+        }
         default: return state;
     }
 }
 
 export const addNewItemActionCreator = (item: string) => ({ type: SET_ITEM, item })
 export const deleteItemActionCreator = (id: number) => ({ type: DELETE_ITEM, id })
+export const toggleEditItemActionCreator = (id: number, text: string) => ({ type: TOGGLE_EDITMODE_ITEM, id, text })
+export const toggleIsFollowingInProgress = (isFollowing: boolean, userId: number) => ({ type: TTT, isFollowing, userId })
