@@ -1,8 +1,8 @@
 //Типы action'ов завернул в константы, чтобы избежать ошибок
 const SET_ITEM = 'SET_ITEM'
 const DELETE_ITEM = 'DELETE_ITEM'
-const TOGGLE_EDITMODE_ITEM = 'TOGGLE_EDITMODE_ITEM'
-const TTT = 'TTT'
+const SET_EDITED_TEXT_IN_ITEM = 'SET_EDITED_TEXT_IN_ITEM'
+const SET_TO_EDITMODE = 'SET_TO_EDITMODE'
 export type ItemType = {
     id: number
     text: string
@@ -40,7 +40,7 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                 ToDoData: state.ToDoData.filter(i => i.id !== action.id)
             }
         }
-        case TOGGLE_EDITMODE_ITEM: {
+        case SET_EDITED_TEXT_IN_ITEM: {
             return {
                 ...state,
                 ToDoData: 
@@ -54,12 +54,10 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                 
             }
         }
-
-        case TTT: {
-
+        case SET_TO_EDITMODE: {
             return {
                 ...state,
-                inEditMode: action.isFollowing ?
+                inEditMode: action.isEditing ?
                     [...state.inEditMode, action.userId] :
                     state.inEditMode.filter(id => id != action.userId)
             }
@@ -68,7 +66,7 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
     }
 }
 
-export const addNewItemActionCreator = (item: string) => ({ type: SET_ITEM, item })
-export const deleteItemActionCreator = (id: number) => ({ type: DELETE_ITEM, id })
-export const toggleEditItemActionCreator = (id: number, text: string) => ({ type: TOGGLE_EDITMODE_ITEM, id, text })
-export const toggleIsFollowingInProgress = (isFollowing: boolean, userId: number) => ({ type: TTT, isFollowing, userId })
+export const addNewItem = (item: string) => ({ type: SET_ITEM, item })
+export const deleteItem = (id: number) => ({ type: DELETE_ITEM, id })
+export const setEditedTextInItem = (id: number, text: string) => ({ type: SET_EDITED_TEXT_IN_ITEM, id, text })
+export const setEditMode = (isEditing: boolean, userId: number) => ({ type: SET_TO_EDITMODE, isEditing, userId })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addNewItemActionCreator } from '../BLL/rootReducer'
+import { addNewItem } from '../BLL/rootReducer'
 import { StateType } from '../BLL/Store'
 
 type PropsType = {
@@ -17,7 +17,7 @@ export const ToDoEditor = (props: PropsType) => {
     }
     const onSaveText = () => {
         if (text) {
-            props.dispatch(addNewItemActionCreator(text))
+            props.dispatch(addNewItem(text))
             setError('')
             setText('')
         } else {
@@ -31,7 +31,7 @@ export const ToDoEditor = (props: PropsType) => {
                 <input
                     className={
                         error ?
-                            'ToDoEditor__input error':
+                            'ToDoEditor__input error' :
                             'ToDoEditor__input'
                     }
                     value={text}
@@ -40,6 +40,12 @@ export const ToDoEditor = (props: PropsType) => {
                 />
                 <button onClick={onSaveText}>Click</button>
             </div>
+            {error ?
+                <div className='textError'>
+                    {error}
+                </div> :
+                null    
+            }
         </div>
     )
 }

@@ -15,10 +15,12 @@ const App = (props: PropsType) => {
       <ToDoList
         ToDoData={props.state.ToDoEditorPage.ToDoData}
         inEditMode={props.state.ToDoEditorPage.inEditMode}
-        dispatch={props.dispatch} />
+        dispatch={props.dispatch}
+      />
       <ToDoEditor
         state={props.state}
-        dispatch={props.dispatch} />
+        dispatch={props.dispatch}
+      />
     </div>
   );
 }
