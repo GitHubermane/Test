@@ -9,24 +9,37 @@ type PropsType = {
 }
 export const ToDoEditor = (props: PropsType) => {
 
-    const [item, setItem] = useState('')
-
+    const [text, setText] = useState('')
+    const [error, setError] = useState('')
     const onChangeText = (e: any) => {
-        setItem(e.currentTarget.value)
+        setText(e.currentTarget.value)
+        setError('')
     }
     const onSaveText = () => {
-        props.dispatch(addNewItemActionCreator(item))
-        setItem('')
+        if (text) {
+            props.dispatch(addNewItemActionCreator(text))
+            setError('')
+            setText('')
+        } else {
+            setError('Text is required')
+        }
     }
     return (
-        <div>
-            <h2>ToDoEditor</h2>
-            <input
-                value={item}
-                type="text"
-                onChange={onChangeText}
-            />
-            <button onClick={onSaveText}>Click</button>
+        <div className='ToDoEditor'>
+            <h2 className='title'>To Do editor</h2>
+            <div className='ToDoEditor__block'>
+                <input
+                    className={
+                        error ?
+                            'ToDoEditor__input error':
+                            'ToDoEditor__input'
+                    }
+                    value={text}
+                    type="text"
+                    onChange={onChangeText}
+                />
+                <button onClick={onSaveText}>Click</button>
+            </div>
         </div>
     )
 }

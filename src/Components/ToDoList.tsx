@@ -10,54 +10,68 @@ type PropsType = {
     dispatch: (action: any) => void
 }
 export const ToDoList = (props: PropsType) => {
-    const [editedMessage, setEditedMessage] = useState('')
+    const [editedText, setEditedText] = useState('')
     const onDeleteItem = (id: number) => {
         props.dispatch(deleteItemActionCreator(id))
-
+    }
+    const onEditItemMode = (id: number, text: string) => {
+        props.dispatch(toggleIsFollowingInProgress(true, id))
+        setEditedText(text)
+    }
+    const onEditText = (id: number) => {
+        props.dispatch(toggleEditItemActionCreator(id, editedText))
+        props.dispatch(toggleIsFollowingInProgress(false, id))
+        setEditedText('')
     }
     return (
         <div className='ToDoList'>
-            <h1>ToDoList</h1>
-            {props.ToDoData.map((object) => (
-                <div key={object.id}>
-                    <div>
-
+            <h1 className='ToDoList__title title'>To Do list</h1>
+            {props.ToDoData.length ?
+                props.ToDoData.map((object) => (
+                    <div
+                        className="Item"
+                        key={object.id}
+                    >
                         {props.inEditMode.some(id => id === object.id) ?
-                            <div>
+                            <>
                                 <input
-                                    value={editedMessage}
-                                    onChange={e => { setEditedMessage(e.currentTarget.value) }}
+                                    value={editedText}
+                                    onChange={e => { setEditedText(e.currentTarget.value) }}
                                 />
-                                <button
-                                    onClick={() => {
-                                        props.dispatch(toggleEditItemActionCreator(object.id, editedMessage))
-                                        props.dispatch(toggleIsFollowingInProgress(false, object.id))
-                                        setEditedMessage('')
-                                    }}
-                                >
-                                    All right
+                                <button onClick={() => onEditText(object.id)}>
+                                    Change text
                                 </button>
-                            </div> :
-                            <div>
-                                <input type='checkbox' />
-                                {object.text}
-                                <button onClick={() => { onDeleteItem(object.id) }}>
-                                    <img src={removeImg} />
-                                </button>
-                                <button
-                                    disabled={props.inEditMode.length !== 0}
-                                    onClick={() => {
-                                        props.dispatch(toggleIsFollowingInProgress(true, object.id))
-                                        setEditedMessage(object.text)
-                                    }}>
-                                    <img src={editImg} />
-                                </button>
-                            </div>
+                            </> :
+                            <>
+                                <div className="Item__textBlock">
+                                    <input type='checkbox' />
+                                    {object.text}
+                                </div>
+                                <div className="Item__buttonBlock">
+                                    <button
+                                        className="Item__button"
+                                        onClick={() => { onDeleteItem(object.id) }}
+                                    >
+                                        <img src={removeImg} />
+                                    </button>
+                                    <button
+                                        className="Item__button"
+                                        disabled={props.inEditMode.length !== 0}
+                                        onClick={() => onEditItemMode(object.id, object.text)}
+                                    >
+                                        <img src={editImg} />
+                                    </button>
+                                </div>
+                            </>
                         }
                     </div>
-
+                )) :
+                <div className='note'>
+                    No to Do
                 </div>
-            ))}
+            }
+
+
         </div>
     )
 }
