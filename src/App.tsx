@@ -3,11 +3,12 @@ import './css/App.css';
 import { ToDoEditor } from './Components/ToDoEditor';
 import { ToDoList } from './Components/ToDoList';
 import { StateType } from './types';
+import { actionsType } from './BLL/rootReducer';
 
 
 type PropsType = {
   state: StateType
-  dispatch: (action: any) => void
+  dispatch: (action: actionsType) => void
 }
 const App = (props: PropsType) => {
 

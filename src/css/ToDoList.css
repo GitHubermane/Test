@@ -1,5 +1,10 @@
 .ToDoList {
   border-right: 2px solid #000;
+  /* 
+  Реализовал возможность изменения ширины списка
+  с помощью css (изменяется при нажатии и 
+  перетаскивания знака в нижней части правой границы)
+  */
   resize: horizontal;
   overflow: auto;
 }
@@ -69,7 +74,7 @@
   outline: none;
   border: 1.5px solid #0062ff;
 }
-.Item__editInput.errored{
+.Item__editInput.errored {
   border: 1.5px solid #e70000;
 }
 .Item__editButton {

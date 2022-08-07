@@ -1,5 +1,5 @@
 import { ItemType } from "../types";
-import { rootReducer } from "./rootReducer";
+import { actionsType, rootReducer } from "./rootReducer";
 
 //  Собственный State manager
 //  Сделан по аналогии с Redux'ом
@@ -12,7 +12,7 @@ let store = {
             inEditMode: [] as Array<number>
         }
     },
-
+    //  Паттерн publish/subscribe
     _callSubscriber(ch: any) { },
 
     getState() {
@@ -23,7 +23,7 @@ let store = {
         this._callSubscriber = observer;
     },
 
-    dispatch(action: any) {
+    dispatch(action: actionsType) {
         this._state.ToDoEditorPage = rootReducer(this._state.ToDoEditorPage, action)
 
         this._callSubscriber(this._state)

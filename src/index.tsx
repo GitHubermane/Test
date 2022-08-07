@@ -4,6 +4,10 @@ import App from './App'
 import store from './BLL/Store'
 import { StateType } from './types'
 
+//  Реализовал возможность изменения ширины списка
+//  с помощью css(изменяется при нажатии и 
+//  перетаскивания знака в нижней части правой границы)
+
 let rerenderTree = (state: StateType) => {
   root.render(
     <React.StrictMode>
@@ -15,8 +19,9 @@ let rerenderTree = (state: StateType) => {
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
-
+//  Чтобы компонента перерисовывалась вызывается функция
 rerenderTree(store.getState())
+//  Для рендера компонента вызывается метод из Store
 store.subscribe(rerenderTree)
 
 //@ts-ignore

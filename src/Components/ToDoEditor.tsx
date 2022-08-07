@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
-import { addNewItem } from '../BLL/rootReducer'
+import { actions, actionsType } from '../BLL/rootReducer'
 import { StateType } from '../types'
 import '../css/ToDoEditor.css'
 type PropsType = {
     state: StateType
-    dispatch: (action: any) => void
+    dispatch: (action: actionsType) => void
 }
 export const ToDoEditor = (props: PropsType) => {
 
@@ -12,28 +12,32 @@ export const ToDoEditor = (props: PropsType) => {
     const [error, setError] = useState('')
     const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value)
+        //  При вводе текста State выдающий ошибку обнуляется
         setError('')
     }
     const onSaveText = () => {
+        //  Валидация на наличие теста в поле
         if (text) {
-            props.dispatch(addNewItem(text))
+            props.dispatch(actions.addNewItem(text))
             setError('')
             setText('')
         } else {
             setError('Text is required')
         }
     }
+    const classNameErrorFunction = (error: string, className: string) => {
+        //  Условие, по которому присваивается класс вынес в отдельную функцию, возвращаующую строку
+        if (error) return `${className} error`
+        else return `${className}`
+    }
+
     return (
         <div className='ToDoEditor'>
             <h2 className='title'>To Do editor</h2>
             <div className='ToDoEditor__form'>
                 <div className='ToDoEditor__inputBlock'>
                     <input
-                        className={
-                            error ?
-                                'ToDoEditor__input error' :
-                                'ToDoEditor__input'
-                        }
+                        className={classNameErrorFunction(error, 'ToDoEditor__input')}
                         value={text}
                         type="text"
                         id='text'
@@ -41,11 +45,7 @@ export const ToDoEditor = (props: PropsType) => {
                         onChange={onChangeText}
                     />
                     <label
-                        className={
-                            error ?
-                                'ToDoEditor__label error' :
-                                'ToDoEditor__label'
-                        }
+                        className={classNameErrorFunction(error, 'ToDoEditor__label')}
                         htmlFor="text"
                     >
                         Text

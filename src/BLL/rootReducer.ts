@@ -1,4 +1,4 @@
-import { ToDoEditorPageType } from "../types"
+import { inferActionsType, ToDoEditorPageType } from "../types"
 
 //Типы action'ов завернул в константы, чтобы избежать ошибок
 const SET_ITEM = 'SET_ITEM',
@@ -10,7 +10,7 @@ const SET_ITEM = 'SET_ITEM',
 
 let ID = 0
 //rootReducer для определения типа action'а 
-export const rootReducer = (state: ToDoEditorPageType, action: any) => {
+export const rootReducer = (state: ToDoEditorPageType, action: actionsType) => {
 
     switch (action.type) {
         case SET_ITEM: {
@@ -23,7 +23,7 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                     {
                         id: ID,
                         text: action.itemText,
-                        status: 'in process'
+                        isCompleted: false
                     }
                 ]
             }
@@ -71,7 +71,7 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                     //  совпадает с id объекта массива, то ему присваивается переданный статус
                     ...state.ToDoData.map(item => {
                         if (item.id === action.id) {
-                            return { ...item, status: action.status }
+                            return { ...item, isCompleted: action.isCompleted }
                         } else {
                             return item
                         }
@@ -82,9 +82,12 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
         default: return state;
     }
 }
-
-export const addNewItem = (itemText: string) => ({ type: SET_ITEM, itemText })
-export const deleteItem = (id: number) => ({ type: DELETE_ITEM, id })
-export const setEditedTextInItem = (id: number, text: string) => ({ type: SET_EDITED_TEXT_IN_ITEM, id, text })
-export const setEditMode = (isEditing: boolean, id: number) => ({ type: SET_TO_EDITMODE, isEditing, id })
-export const toggleCompletedStatus = (id: number, status: string) => ({ type: SET_STATUS, id, status })
+//  В функцию дженерик передается объект actions 
+export type actionsType = inferActionsType<typeof actions>
+export const actions = {
+    addNewItem: (itemText: string) => ({ type: SET_ITEM, itemText } as const),
+    deleteItem: (id: number) => ({ type: DELETE_ITEM, id } as const),
+    setEditedTextInItem: (id: number, text: string) => ({ type: SET_EDITED_TEXT_IN_ITEM, id, text } as const),
+    setEditMode: (isEditing: boolean, id: number) => ({ type: SET_TO_EDITMODE, isEditing, id } as const),
+    toggleCompletedStatus: (id: number, isCompleted: boolean) => ({ type: SET_STATUS, id, isCompleted } as const)
+}

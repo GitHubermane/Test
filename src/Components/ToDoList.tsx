@@ -1,19 +1,18 @@
 import { useMemo, useState } from "react"
+import { actionsType } from "../BLL/rootReducer"
 import { inEditModeType, toDoDataType } from "../types"
 import { ItemsList } from "./ItemsList"
 
 type PropsType = {
     ToDoData: toDoDataType
     inEditMode: inEditModeType
-    dispatch: (action: any) => void
+    dispatch: (action: actionsType) => void
 }
 export const ToDoList = (props: PropsType) => {
     const [searchQuery, setSearchQuery] = useState('')
 
-    const searchedItems = useMemo(() => {
-        return props.ToDoData.filter(item => item.text.includes(searchQuery))
-    },
-        [searchQuery, props.ToDoData])
+    const searchedItems =  props.ToDoData.filter(item => item.text.includes(searchQuery))
+
     return (
         <div className='ToDoList'>
             <h1 className='ToDoList__title title'>To Do list</h1>
@@ -29,11 +28,7 @@ export const ToDoList = (props: PropsType) => {
                     <ItemsList
                         dispatch={props.dispatch}
                         inEditMode={props.inEditMode}
-                        items={
-                            searchQuery ?
-                                searchedItems :
-                                props.ToDoData
-                        }
+                        items={ searchedItems }
                     />
                 </> :
                 <div className='note'>
