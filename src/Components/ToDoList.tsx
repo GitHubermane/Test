@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react"
+import { inEditModeType, toDoDataType } from "../types"
 import { ItemsList } from "./ItemsList"
 
 type PropsType = {
-    ToDoData: Array<any>
-    inEditMode: Array<any>
+    ToDoData: toDoDataType
+    inEditMode: inEditModeType
     dispatch: (action: any) => void
 }
 export const ToDoList = (props: PropsType) => {
@@ -12,14 +13,16 @@ export const ToDoList = (props: PropsType) => {
     const searchedItems = useMemo(() => {
         return props.ToDoData.filter(item => item.text.includes(searchQuery))
     },
-        [searchQuery])
+        [searchQuery, props.ToDoData])
     return (
         <div className='ToDoList'>
             <h1 className='ToDoList__title title'>To Do list</h1>
             {props.ToDoData.length ?
                 <>
                     <input
-                        type="text"
+                        className='ToDoList__input'
+                        type='text'
+                        placeholder='Enter text'
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                     />

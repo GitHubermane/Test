@@ -1,16 +1,15 @@
-import { ItemType, rootReducer, ToDoEditorPageType } from "./rootReducer";
+import { ItemType } from "../types";
+import { rootReducer } from "./rootReducer";
 
-// Собственный State manager
+//  Собственный State manager
+//  Сделан по аналогии с Redux'ом
 
-export type StateType = {
-    ToDoEditorPage: ToDoEditorPageType
-}
 let store = {
 
     _state: {
         ToDoEditorPage: {
             ToDoData: [] as Array<ItemType>,
-            inEditMode: [] as Array<any>
+            inEditMode: [] as Array<number>
         }
     },
 
@@ -25,7 +24,6 @@ let store = {
     },
 
     dispatch(action: any) {
-        //@ts-ignore
         this._state.ToDoEditorPage = rootReducer(this._state.ToDoEditorPage, action)
 
         this._callSubscriber(this._state)

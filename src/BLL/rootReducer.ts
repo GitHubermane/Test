@@ -1,17 +1,13 @@
+import { ToDoEditorPageType } from "../types"
+
 //Типы action'ов завернул в константы, чтобы избежать ошибок
-const SET_ITEM = 'SET_ITEM'
-const DELETE_ITEM = 'DELETE_ITEM'
-const SET_EDITED_TEXT_IN_ITEM = 'SET_EDITED_TEXT_IN_ITEM'
-const SET_TO_EDITMODE = 'SET_TO_EDITMODE'
-export type ItemType = {
-    id: number
-    text: string
-    status: string
-}
-export type ToDoEditorPageType = {
-    ToDoData: Array<ItemType>
-    inEditMode: Array<any>
-}
+const SET_ITEM = 'SET_ITEM',
+    DELETE_ITEM = 'DELETE_ITEM',
+    SET_EDITED_TEXT_IN_ITEM = 'SET_EDITED_TEXT_IN_ITEM',
+    SET_TO_EDITMODE = 'SET_TO_EDITMODE',
+    SET_STATUS = 'SET_STATUS'
+
+
 let ID = 0
 //rootReducer для определения типа action'а 
 export const rootReducer = (state: ToDoEditorPageType, action: any) => {
@@ -26,7 +22,7 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                     ...state.ToDoData,
                     {
                         id: ID,
-                        text: action.item,
+                        text: action.itemText,
                         status: 'in process'
                     }
                 ]
@@ -43,7 +39,9 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
         case SET_EDITED_TEXT_IN_ITEM: {
             return {
                 ...state,
-                ToDoData: 
+                //  Прохожу по массиву всех объектов и если id объекта совпадает с id,
+                //  который был передан, то меняется значение text, на то которое, было передано
+                ToDoData:
                     state.ToDoData.map(item => {
                         if (item.id === action.id) {
                             return { ...item, text: action.text }
@@ -51,22 +49,42 @@ export const rootReducer = (state: ToDoEditorPageType, action: any) => {
                             return item
                         }
                     })
-                
+
             }
         }
         case SET_TO_EDITMODE: {
             return {
                 ...state,
+                //  Если isEditing в значении true, то id объекта вносится 
+                //  в массив, при значении false убирается из массива 
+                //  (в массиве находятся id объектов, которые сейчас редактируются)
                 inEditMode: action.isEditing ?
-                    [...state.inEditMode, action.userId] :
-                    state.inEditMode.filter(id => id != action.userId)
+                    [...state.inEditMode, action.id] :
+                    state.inEditMode.filter(id => id != action.id)
+            }
+        }
+        case SET_STATUS: {
+            return {
+                ...state,
+                ToDoData: [
+                    //  Прохожу по всему массиву объектов и если переданный id 
+                    //  совпадает с id объекта массива, то ему присваивается переданный статус
+                    ...state.ToDoData.map(item => {
+                        if (item.id === action.id) {
+                            return { ...item, status: action.status }
+                        } else {
+                            return item
+                        }
+                    })
+                ]
             }
         }
         default: return state;
     }
 }
 
-export const addNewItem = (item: string) => ({ type: SET_ITEM, item })
+export const addNewItem = (itemText: string) => ({ type: SET_ITEM, itemText })
 export const deleteItem = (id: number) => ({ type: DELETE_ITEM, id })
 export const setEditedTextInItem = (id: number, text: string) => ({ type: SET_EDITED_TEXT_IN_ITEM, id, text })
-export const setEditMode = (isEditing: boolean, userId: number) => ({ type: SET_TO_EDITMODE, isEditing, userId })
+export const setEditMode = (isEditing: boolean, id: number) => ({ type: SET_TO_EDITMODE, isEditing, id })
+export const toggleCompletedStatus = (id: number, status: string) => ({ type: SET_STATUS, id, status })

@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
-import { StateType } from './BLL/Store';
+import './css/App.css';
 import { ToDoEditor } from './Components/ToDoEditor';
 import { ToDoList } from './Components/ToDoList';
+import { StateType } from './types';
 
 
 type PropsType = {
@@ -10,6 +10,9 @@ type PropsType = {
   dispatch: (action: any) => void
 }
 const App = (props: PropsType) => {
+
+
+  
   return (
     <div className="App">
       <ToDoList

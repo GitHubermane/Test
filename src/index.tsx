@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import store from './BLL/Store'
+import { StateType } from './types'
 
-let rerenderTree = (state: any) => {
+let rerenderTree = (state: StateType) => {
   root.render(
     <React.StrictMode>
       <App state={state} dispatch={store.dispatch.bind(store)}/>

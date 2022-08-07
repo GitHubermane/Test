@@ -1,0 +1,91 @@
+.ToDoList {
+  border-right: 2px solid #000;
+  resize: horizontal;
+  overflow: auto;
+}
+.ToDoList__input {
+  border-radius: 0px;
+  border: none;
+  border-bottom: 1.5px solid #000;
+}
+.ToDoList__input:hover {
+  border-bottom: 1.5px solid #809ac4;
+}
+.ToDoList__input:focus-visible {
+  outline: none;
+  border-bottom: 2px solid #0062ff;
+}
+.ToDoList__items {
+  width: 100%;
+}
+.Item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 15px;
+  padding: 5px 10px;
+  border: 1px solid #0062ff;
+  border-radius: 5px;
+}
+.Item.completed {
+  border: 1px solid #07cf18;
+}
+.Item__textBlock {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  overflow: hidden;
+}
+.Item__text {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Item__buttonBlock {
+  display: flex;
+}
+.Item__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  height: 24px;
+  width: 24px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.Item__button:hover {
+  background-color: rgba(0, 98, 255, 0.3);
+  transition: all 0.2s;
+}
+.Item__button.completed:hover {
+  background-color: rgba(7, 207, 24, 0.3);
+}
+.Item__editInput:hover {
+  border: 1.5px solid #809ac4;
+}
+.Item__editInput:focus-visible {
+  outline: none;
+  border: 1.5px solid #0062ff;
+}
+.Item__editInput.errored{
+  border: 1.5px solid #e70000;
+}
+.Item__editButton {
+  padding: 2px 5px;
+  color: #fff;
+  background-color: #0062ff;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.note {
+  margin: 10px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+.completed {
+  color: #07cf18;
+}

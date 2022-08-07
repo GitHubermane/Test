@@ -1,0 +1,87 @@
+.ToDoEditor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ToDoEditor__form {
+  display: flex;
+  justify-content: center;
+
+  position: relative;
+}
+.ToDoEditor__block {
+  position: relative;
+}
+.ToDoEditor__input {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 2px solid #000;
+  border-radius: 7px 0 0 7px;
+  color: #000;
+  outline: none;
+  padding: 7px 15px;
+  background: none;
+}
+.ToDoEditor__input.error {
+  border: 2px solid #e70000;
+}
+
+.ToDoEditor__label {
+  width: 80px;
+  position: absolute;
+  left: 10px;
+  top: 8.5px;
+  padding: 0 5px;
+  color: #000;
+  cursor: text;
+  transition: 
+    color 0.2s,
+    width 0.1s ease-in 0.05s,
+    top 200ms ease-in,
+    left 200ms ease-in,
+    font-size 200ms ease-in;
+  background-color: #fff;
+}
+.ToDoEditor__label.error {
+  color: #e70000;
+}
+.ToDoEditor__label:hover {
+  color: #809ac4;
+}
+
+.ToDoEditor__input:focus ~ .ToDoEditor__label,
+.ToDoEditor__input:not(:placeholder-shown).ToDoEditor__input:not(:focus) ~ .ToDoEditor__label {
+  top: -0.5rem;
+  left: 0.8rem;
+  width: 35px;
+  font-size: 0.8rem;
+  color: #0062ff;
+}
+
+.ToDoEditor__input:hover {
+  border: 2px solid #809ac4;
+  transition: all 0.2s;
+}
+.ToDoEditor__input:focus-visible {
+  outline: none;
+  border: 2px solid #0062ff;
+  transition: all 0.2s;
+}
+.ToDoEditor__button {
+  padding: 3px 8px;
+  color: #fff;
+  background-color: #0062ff;
+  border: none;
+  border-radius: 0 7px 7px 0;
+  cursor: pointer;
+}
+
+.textError {
+  margin: 10px;
+  padding: 5px;
+  font-weight: 500;
+  color: #e70000;
+  border: 2px solid #e70000;
+  border-radius: 5px;
+}
